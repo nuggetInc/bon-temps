@@ -35,7 +35,7 @@ $btn-focus-box-shadow: 0 0 0 4px $secondary;
 
 $enable-shadows: true;
 
-@import "../lib/bootstrap/scss/bootstrap";
+@import "bootstrap/bootstrap";
 
 .btn-primary {
     @include button-variant($primary, $primary, $light, $hover-color: $light, $active-color: $light);
@@ -51,11 +51,6 @@ $enable-shadows: true;
 
 .btn-dark {
     @include button-variant($dark, $dark, $light, $hover-color: $light, $active-color: $light);
-}
-
-.page-header {
-    background: linear-gradient(-45deg, #495464 0%, #495464 100%);
-    /* background-image: url("header.jpg"); */
 }
 
 .gradient {
