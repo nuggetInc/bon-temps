@@ -19,7 +19,7 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
 ?>
 <div class="min-vh-100 gradient d-flex flex-column">
     <header class="container navbar navbar-expand-md navbar-dark justify-content-between mb-auto px-3">
-        <a class="navbar-brand" href="<?= $_SERVER["REDIRECT_ROOT"] ?>">Bon Temps</a>
+        <a class="navbar-brand fw-bold" href="<?= $_SERVER["REDIRECT_ROOT"] ?>">Bon Temps</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

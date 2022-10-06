@@ -45,6 +45,9 @@ function getPDO(): PDO
         case "register":
             require("pages/register.php");
             break;
+        case "logout":
+            require("pages/logout.php");
+            break;
         case "home":
             require("pages/home.php");
             break;

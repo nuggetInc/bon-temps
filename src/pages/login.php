@@ -17,10 +17,10 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
 }
 
 ?>
-<div class="vh-100  d-flex flex-column">
+<div class="vh-100 d-flex flex-column">
     <header class="bg-light shadow-sm mb-auto">
         <div class="container navbar navbar-expand-md navbar-light px-3">
-            <a class="navbar-brand" href="<?= ROOT ?>">Bon Temps</a>
+            <a class="navbar-brand fw-bold" href="<?= ROOT ?>">Bon Temps</a>
             <span class="navbar-text">
                 Inloggen
             </span>
