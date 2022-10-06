@@ -1,7 +1,26 @@
+<?php
+
+declare(strict_types=1);
+
+if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
+    $user = User::login($_POST["username"], $_POST["password"]);
+
+    if (!isset($user)) {
+        header("Location: .");
+        exit;
+    }
+
+    $_SESSION["loginID"] = $user->getID();
+
+    header("Location: " . ROOT);
+    exit;
+}
+
+?>
 <div class="vh-100  d-flex flex-column">
     <header class="bg-light shadow-sm mb-auto">
         <div class="container navbar navbar-expand-md navbar-light px-3">
-            <a class="navbar-brand" href="<?= $_SERVER["REDIRECT_ROOT"] ?>">Bon Temps</a>
+            <a class="navbar-brand" href="<?= ROOT ?>">Bon Temps</a>
             <span class="navbar-text">
                 Inloggen
             </span>
@@ -11,10 +30,10 @@
             <nav class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= $_SERVER["REDIRECT_ROOT"] ?>/login">Inloggen</a>
+                        <a class="nav-link" href="<?= ROOT ?>/login">Inloggen</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= $_SERVER["REDIRECT_ROOT"] ?>/register">Registreren</a>
+                        <a class="nav-link" href="<?= ROOT ?>/register">Registreren</a>
                     </li>
                 </ul>
             </nav>
@@ -22,17 +41,20 @@
     </header>
     <main class="container mb-auto">
         <div class="row justify-content-around gy-5">
-            <form class="col-lg-4 text-dark fw-bold">
+            <form class="col-lg-4 text-dark fw-bold" method="POST">
                 <h1 class="mb-3">Inloggen</h1>
+
                 <div class="mb-3">
-                    <label class="form-label" for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <label name="username" class="form-label" for="inputEmail">Gebruikersnaam</label>
+                    <input type="text" name="username" class="form-control" id="inputEmail" placeholder="Gebruikersnaam">
                 </div>
+
                 <div class="mb-3">
-                    <label class="form-label" for="inputPassword">Wachtwoord</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Wachtwoord">
+                    <label name="password" class="form-label" for="inputPassword">Wachtwoord</label>
+                    <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Wachtwoord">
                 </div>
-                <button type="submit" class="btn btn-primary">Log in</button>
+
+                <button type="submit" name="login" class="btn btn-primary">Log in</button>
             </form>
         </div>
     </main>

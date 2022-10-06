@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
+require_once "classes/User.php";
+
 session_start();
 
-require_once "classes/User.php";
+define("ROOT", $_SERVER["REDIRECT_ROOT"]);
+define("ROUTE", $_SERVER["REDIRECT_ROUTE"]);
 
 function getPDO(): PDO
 {
-    static $pdo = new PDO("mysql:host=localhost;dbname=advanced_login", "root", "");
+    static $pdo = new PDO("mysql:host=localhost;dbname=bon_temps", "root", "");
 
     return $pdo;
 }
@@ -33,7 +36,7 @@ function getPDO(): PDO
     <?php
 
     // Get the route and split on "/"
-    $route = explode("/", trim($_SERVER["REDIRECT_ROUTE"], "/"));
+    $route = explode("/", trim(ROUTE, "/"));
 
     switch ($route[0] ?? null) {
         case "login":
@@ -49,7 +52,7 @@ function getPDO(): PDO
             require("pages/main.php");
             break;
         default:
-            if (isset($_SESSION["userID"]))
+            if (isset($_SESSION["loginID"]))
                 require("pages/home.php");
             else
                 require("pages/main.php");
