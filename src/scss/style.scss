@@ -57,15 +57,7 @@ $enable-shadows: true;
     background: linear-gradient(-45deg, #495464 0%, #828997 100%);
 }
 
-.center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-
-.main {
+.mainpage-content {
     margin-top: -3rem;
     height: 100vh;
     background: linear-gradient(#F4F4F2 0%, #E8E8E8 25rem);
