@@ -27,6 +27,11 @@ class User
         return $this->password;
     }
 
+    public function getType(): UserType
+    {
+        return $this->type;
+    }
+
     public static function login(string $username, string $password): ?User
     {
         if ($user = User::getByUsername($username)) {

@@ -33,6 +33,10 @@ $btn-box-shadow: 0 0 0 0 $secondary;
 $btn-active-box-shadow: 0 0 0 0 $secondary;
 $btn-focus-box-shadow: 0 0 0 4px $secondary;
 
+$table-bg: $light;
+$table-accent-bg: $light;
+$table-border-width: 0;
+
 $enable-shadows: true;
 
 @import "bootstrap/bootstrap";

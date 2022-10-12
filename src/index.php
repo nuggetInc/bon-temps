@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once "classes/Customer.php";
+require_once "classes/Reservation.php";
 require_once "classes/User.php";
 
 session_start();
@@ -28,7 +30,8 @@ function getPDO(): PDO
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="<?= ROOT ?>/style.css">
     <title>Bon Temps</title>
 </head>
 
@@ -38,28 +41,60 @@ function getPDO(): PDO
     // Get the route and split on "/"
     $route = explode("/", trim(ROUTE, "/"));
 
-    switch ($route[0] ?? null) {
-        case "login":
-            require("pages/login.php");
-            break;
-        case "register":
-            require("pages/register.php");
-            break;
-        case "logout":
-            require("pages/logout.php");
-            break;
-        case "home":
-            require("pages/home.php");
-            break;
-        case "main":
-            require("pages/main.php");
-            break;
-        default:
-            if (isset($_SESSION["loginID"]))
-                require("pages/home.php");
-            else
+    if (isset($_SESSION["loginID"])) {
+        $user = User::get($_SESSION["loginID"]);
+
+        switch ($route[0] ?? null) {
+            case "login":
+                require("pages/login.php");
+                break;
+            case "logout":
+                require("pages/logout.php");
+                break;
+            case "main":
                 require("pages/main.php");
-            break;
+                break;
+        }
+
+        if ($user->getType() === UserType::Customer) {
+            $customer = Customer::getByUserID($_SESSION["loginID"]);
+
+            switch ($route[0] ?? null) {
+                case "register":
+                    require("pages/register.php");
+                    break;
+                case "home":
+                    require("pages/home.php");
+                    break;
+                default:
+                    if (isset($_SESSION["loginID"]))
+                        require("pages/home.php");
+                    else
+                        require("pages/main.php");
+                    break;
+            }
+        } else {
+            switch ($route[0] ?? null) {
+                default:
+                    require("pages/main.php");
+                    break;
+            }
+        }
+    } else {
+        switch ($route[0] ?? null) {
+            case "login":
+                require("pages/login.php");
+                break;
+            case "logout":
+                require("pages/logout.php");
+                break;
+            case "main":
+                require("pages/main.php");
+                break;
+            default:
+                require("pages/main.php");
+                break;
+        }
     }
 
     ?>
