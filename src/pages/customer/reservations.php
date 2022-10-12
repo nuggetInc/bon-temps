@@ -10,7 +10,7 @@ $reservations = Reservation::getByCustomerID($customer->getID());
         <div class="container navbar navbar-expand-md navbar-light px-3">
             <a class="navbar-brand fw-bold" href="<?= ROOT ?>">Bon Temps</a>
             <span class="navbar-text">
-                Home
+                Reserveringen
             </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

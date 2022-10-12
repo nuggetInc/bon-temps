@@ -51,34 +51,21 @@ function getPDO(): PDO
             case "logout":
                 require("pages/logout.php");
                 break;
+            case "register":
+                require("pages/register.php");
+                break;
             case "main":
                 require("pages/main.php");
                 break;
         }
 
-        if ($user->getType() === UserType::Customer) {
-            $customer = Customer::getByUserID($_SESSION["loginID"]);
-
-            switch ($route[0] ?? null) {
-                case "register":
-                    require("pages/register.php");
-                    break;
-                case "home":
-                    require("pages/home.php");
-                    break;
-                default:
-                    if (isset($_SESSION["loginID"]))
-                        require("pages/home.php");
-                    else
-                        require("pages/main.php");
-                    break;
-            }
-        } else {
-            switch ($route[0] ?? null) {
-                default:
-                    require("pages/main.php");
-                    break;
-            }
+        switch ($user->getType()) {
+            case UserType::Customer:
+                require("pages/customer.php");
+                break;
+            case UserType::Employee:
+                require("pages/employee.php");
+                break;
         }
     } else {
         switch ($route[0] ?? null) {
@@ -88,9 +75,10 @@ function getPDO(): PDO
             case "logout":
                 require("pages/logout.php");
                 break;
-            case "main":
-                require("pages/main.php");
+            case "register":
+                require("pages/register.php");
                 break;
+            case "main":
             default:
                 require("pages/main.php");
                 break;
