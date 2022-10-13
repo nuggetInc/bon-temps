@@ -48,10 +48,9 @@ class User
         return password_verify($password, $this->password);
     }
 
-    public static function register(string $username, string $password, UserType $type): ?User
+    public static function create(string $username, string $password, UserType $type): ?User
     {
         // Cannot create new user username already exists
-        var_dump(self::getByUsername($username));
         if (self::getByUsername($username))
             return null;
 

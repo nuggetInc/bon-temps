@@ -60,14 +60,12 @@ function getPDO(): PDO
             case "main":
                 require("pages/main.php");
                 break;
-        }
+            default:
+                if ($user->getType() === UserType::Customer)
+                    require("pages/customer.php");
+                else
+                    require("pages/employee.php");
 
-        switch ($user->getType()) {
-            case UserType::Customer:
-                require("pages/customer.php");
-                break;
-            case UserType::Employee:
-                require("pages/employee.php");
                 break;
         }
     } else {

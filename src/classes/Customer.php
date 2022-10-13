@@ -67,4 +67,19 @@ class Customer
 
         return null;
     }
+
+    public static function create(string $email, string $phonenumber, string $postalCode, string $houseNumber, int $userID): Customer
+    {
+        $params = array(
+            ":email" => $email,
+            ":phonenumber" => $phonenumber,
+            ":postal_code" => $postalCode,
+            ":house_number" => $houseNumber,
+            ":user_id" => $userID
+        );
+        $sth = getPDO()->prepare("INSERT INTO `customers` (`email`, `phonenumber`, `postal_code`, `house_number`, `user_id`) VALUES (:email, :phonenumber, :postal_code, :house_number, :user_id);");
+        $sth->execute($params);
+
+        return new Customer((int)getPDO()->lastInsertId(), $email, $phonenumber, $postalCode, $houseNumber, $userID);
+    }
 }
