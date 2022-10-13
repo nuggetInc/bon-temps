@@ -2,110 +2,22 @@
 
 declare(strict_types=1);
 
-if (isset($_POST["edit"], $_POST["amount"], $_POST["date"], $_POST["time"], $_POST["count"])) {
+$reservationDishes = ReservationDish::getByReservationID($reservation->getID());
 
-    ReservationDish::deleteByReservationID($reservation->getID());
+$_SESSION["amount"] = count($reservationDishes);
 
-    $reservationDishes = array();
+$index = 0;
+foreach ($reservationDishes as $reservationDish) {
+    $dish = $reservationDish->getDish();
+    $_SESSION["dishID$index"] = $dish->getID();
+    $_SESSION["amount$index"] = $reservationDish->getAmount();
 
-    for ($index = 0; $index < (int)$_POST["amount"]; $index++) {
-        $dishID = (int)$_POST["dishID$index"];
-        $amount = (int)$_POST["amount$index"];
-
-        if (array_key_exists($dishID, $reservationDishes)) {
-            $reservationDishes[$dishID] += $amount;
-        } else {
-            $reservationDishes[$dishID] = $amount;
-        }
-    }
-
-    foreach ($reservationDishes as $dishID => $amount) {
-        if ($dishID !== 0 && $amount !== 0)
-            ReservationDish::create($reservation->getID(), $dishID, $amount);
-    }
-
-    Reservation::update(
-        $reservation->getID(),
-        strtotime($_POST["date"] . " " . $_POST["time"]),
-        (int)$_POST["count"],
-        $reservation->getCustomerID(),
-    );
-
-    header("Location: " . ROOT . "/reservations");
-    exit;
+    $index++;
 }
 
-if (isset($_POST["add"], $_POST["amount"], $_POST["date"], $_POST["date"], $_POST["date"])) {
-
-    $_SESSION["amount"] = (int)$_POST["amount"];
-
-    for ($index = 0; $index < $_SESSION["amount"]; $index++) {
-        $_SESSION["dishID$index"] = (int)$_POST["dishID$index"];
-        $_SESSION["amount$index"] = (int)$_POST["amount$index"];
-    }
-
-    $_SESSION["amount"]++;
-    $_SESSION["dishID$index"] = 0;
-    $_SESSION["amount$index"] = 1;
-
-    $_SESSION["date"] = $_POST["date"];
-    $_SESSION["time"] = $_POST["time"];
-    $_SESSION["count"] = (int)$_POST["count"];
-
-    header("Location: " . PATH);
-    exit;
-}
-
-if (isset($_POST["remove"], $_POST["amount"], $_POST["date"], $_POST["date"], $_POST["date"])) {
-
-    $_SESSION["amount"] = (int)$_POST["amount"];
-    if ($_SESSION["amount"] > 1) {
-
-        for ($index = 0; $index < $_SESSION["amount"]; $index++) {
-            if ($index < (int)$_POST["remove"]) {
-                $_SESSION["dishID$index"] = (int)$_POST["dishID$index"];
-                $_SESSION["amount$index"] = (int)$_POST["amount$index"];
-                echo "test1";
-            } elseif ($index > (int)$_POST["remove"]) {
-                $_SESSION["dishID" . $index - 1] = (int)$_POST["dishID$index"];
-                $_SESSION["amount" . $index - 1] = (int)$_POST["amount$index"];
-            }
-        }
-
-        $_SESSION["amount"]--;
-        unset($_SESSION["dishID" . $index - 1]);
-        unset($_SESSION["amount" . $index - 1]);
-    } else {
-        $_SESSION["dishID0"] = 0;
-        $_SESSION["amount0"] = 1;
-    }
-
-    $_SESSION["date"] = $_POST["date"];
-    $_SESSION["time"] = $_POST["time"];
-    $_SESSION["count"] = (int)$_POST["count"];
-
-    header("Location: " . PATH);
-    exit;
-}
-
-if (!isset($_SESSION["amount"], $_SESSION["date"], $_SESSION["time"], $_SESSION["count"])) {
-    $reservationDishes = ReservationDish::getByReservationID($reservation->getID());
-
-    $_SESSION["amount"] = count($reservationDishes);
-
-    $index = 0;
-    foreach ($reservationDishes as $reservationDish) {
-        $dish = $reservationDish->getDish();
-        $_SESSION["dishID$index"] = $dish->getID();
-        $_SESSION["amount$index"] = $reservationDish->getAmount();
-
-        $index++;
-    }
-
-    $_SESSION["date"] = date("Y-m-d", $reservation->getDatetime());
-    $_SESSION["time"] = date("H:i", $reservation->getDatetime());
-    $_SESSION["count"] = $reservation->getCount();
-}
+$_SESSION["date"] = date("Y-m-d", $reservation->getDatetime());
+$_SESSION["time"] = date("H:i", $reservation->getDatetime());
+$_SESSION["count"] = $reservation->getCount();
 
 $dishes = Dish::all();
 
