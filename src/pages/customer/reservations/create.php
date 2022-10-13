@@ -57,21 +57,26 @@ if (isset($_POST["add"], $_POST["amount"], $_POST["date"], $_POST["date"], $_POS
 if (isset($_POST["remove"], $_POST["amount"], $_POST["date"], $_POST["date"], $_POST["date"])) {
 
     $_SESSION["amount"] = (int)$_POST["amount"];
+    if ($_SESSION["amount"] > 1) {
 
-    for ($index = 0; $index < $_SESSION["amount"]; $index++) {
-        if ($index < (int)$_POST["remove"]) {
-            $_SESSION["dishID$index"] = (int)$_POST["dishID$index"];
-            $_SESSION["amount$index"] = (int)$_POST["amount$index"];
-            echo "test1";
-        } elseif ($index > (int)$_POST["remove"]) {
-            $_SESSION["dishID" . $index - 1] = (int)$_POST["dishID$index"];
-            $_SESSION["amount" . $index - 1] = (int)$_POST["amount$index"];
+        for ($index = 0; $index < $_SESSION["amount"]; $index++) {
+            if ($index < (int)$_POST["remove"]) {
+                $_SESSION["dishID$index"] = (int)$_POST["dishID$index"];
+                $_SESSION["amount$index"] = (int)$_POST["amount$index"];
+                echo "test1";
+            } elseif ($index > (int)$_POST["remove"]) {
+                $_SESSION["dishID" . $index - 1] = (int)$_POST["dishID$index"];
+                $_SESSION["amount" . $index - 1] = (int)$_POST["amount$index"];
+            }
         }
-    }
 
-    $_SESSION["amount"]--;
-    unset($_SESSION["dishID" . $index - 1]);
-    unset($_SESSION["amount" . $index - 1]);
+        $_SESSION["amount"]--;
+        unset($_SESSION["dishID" . $index - 1]);
+        unset($_SESSION["amount" . $index - 1]);
+    } else {
+        $_SESSION["dishID0"] = 0;
+        $_SESSION["amount0"] = 1;
+    }
 
     $_SESSION["date"] = $_POST["date"];
     $_SESSION["time"] = $_POST["time"];
