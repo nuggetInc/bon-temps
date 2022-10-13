@@ -35,7 +35,7 @@ $reservations = Reservation::getByCustomerID($customer->getID());
                     <th class="align-middle px-3">Datum</th>
                     <th class="align-middle px-3">Tijd</th>
                     <th class="align-middle px-3">Aantal</th>
-                    <th class="text-end"><a title="Nieuwe reservering aanmaken" class="fa-solid fa-square-plus btn btn-lg p-1"></a></th>
+                    <th class="text-end"><a title="Nieuwe reservering aanmaken" href="<?= ROOT . "/reservations/create" ?>" class=" fa-solid fa-square-plus btn btn-lg p-1"></a></th>
                 </tr>
             </thead>
             <tbody>

@@ -2,9 +2,13 @@
 
 declare(strict_types=1);
 
-if (isset($_POST["edit"], $_POST["amount"], $_POST["date"], $_POST["time"], $_POST["count"])) {
+if (isset($_POST["create"], $_POST["amount"], $_POST["date"], $_POST["time"], $_POST["count"])) {
 
-    ReservationDish::deleteByReservationID($reservation->getID());
+    $reservation = Reservation::create(
+        strtotime($_POST["date"] . " " . $_POST["time"]),
+        (int)$_POST["count"],
+        $customer->getID(),
+    );
 
     $reservationDishes = array();
 
@@ -24,16 +28,10 @@ if (isset($_POST["edit"], $_POST["amount"], $_POST["date"], $_POST["time"], $_PO
             ReservationDish::create($reservation->getID(), $dishID, $amount);
     }
 
-    Reservation::update(
-        $reservation->getID(),
-        strtotime($_POST["date"] . " " . $_POST["time"]),
-        (int)$_POST["count"],
-        $reservation->getCustomerID(),
-    );
-
     header("Location: " . ROOT . "/reservations");
     exit;
 }
+
 
 if (isset($_POST["add"], $_POST["amount"], $_POST["date"], $_POST["date"], $_POST["date"])) {
 
@@ -84,22 +82,14 @@ if (isset($_POST["remove"], $_POST["amount"], $_POST["date"], $_POST["date"], $_
 }
 
 if (!isset($_SESSION["amount"], $_SESSION["date"], $_SESSION["time"], $_SESSION["count"])) {
-    $reservationDishes = ReservationDish::getByReservationID($reservation->getID());
 
-    $_SESSION["amount"] = count($reservationDishes);
+    $_SESSION["amount"] = 1;
+    $_SESSION["dishID0"] = 0;
+    $_SESSION["amount0"] = 1;
 
-    $index = 0;
-    foreach ($reservationDishes as $reservationDish) {
-        $dish = $reservationDish->getDish();
-        $_SESSION["dishID" . $index] = $dish->getID();
-        $_SESSION["amount" . $index] = $reservationDish->getAmount();
-
-        $index++;
-    }
-
-    $_SESSION["date"] = date("Y-m-d", $reservation->getDatetime());
-    $_SESSION["time"] = date("H:i", $reservation->getDatetime());
-    $_SESSION["count"] = $reservation->getCount();
+    $_SESSION["date"] = date("Y-m-d", strtotime("+8 days"));
+    $_SESSION["time"] = date("H:i");
+    $_SESSION["count"] = 4;
 }
 
 $dishes = Dish::all();
@@ -169,7 +159,7 @@ $dishes = Dish::all();
                 </tbody>
             </table>
             <div class="col-lg-4 text-dark fw-bold">
-                <h1 class="mb-3">Aanpassen</h1>
+                <h1 class="mb-3">Aanmaken</h1>
 
                 <div class="mb-3">
                     <label name="date" class="form-label" for="inputDate">Datum</label>
@@ -186,7 +176,7 @@ $dishes = Dish::all();
                     <input type="number" name="count" class="form-control" id="inputCount" value="<?= $_SESSION["count"] ?>" placeholder="Aantal personen" min="4">
                 </div>
 
-                <button type="submit" name="edit" class="btn btn-primary">Aanpassen</button>
+                <button type="submit" name="create" class="btn btn-primary">Aanmaken</button>
             </div>
         </form>
     </main>

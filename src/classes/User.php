@@ -58,7 +58,7 @@ class User
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
         $params = array(":username" => $username, ":password" => $hash, ":type" => $type->value);
-        $sth = getPDO()->prepare("INSERT INTO `users` (`username`, `password`, `type`) VALUE (:username, :password, :type);");
+        $sth = getPDO()->prepare("INSERT INTO `users` (`username`, `password`, `type`) VALUES (:username, :password, :type);");
         $sth->execute($params);
 
         return new User((int)getPDO()->lastInsertId(), $username, $hash, $type);

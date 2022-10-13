@@ -58,6 +58,21 @@ class Reservation
         return $reservations;
     }
 
+    public static function create(int $datetime, int $count, int $customerID): ?Reservation
+    {
+        $params = array(
+            ":date" => date("Y-m-d", $datetime),
+            ":time" => date("H:i:s", $datetime),
+            ":count" => $count,
+            ":customer_id" => $customerID,
+        );
+
+        $sth = getPDO()->prepare("INSERT INTO `reservations` (`date`, `time`, `count`, `customer_id`) VALUES (:date, :time, :count, :customer_id);");
+        $sth->execute($params);
+
+        return new Reservation((int)getPDO()->lastInsertId(), $datetime, $count, $customerID);
+    }
+
     public static function update(int $id, int $datetime, int $count, int $customerID): ?Reservation
     {
         $params = array(
