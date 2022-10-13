@@ -17,21 +17,20 @@ $navbar-dark-active-color: $light;
 $box-shadow: 4px 4px 12px rgba($primary, .5);
 $box-shadow-sm: 2px 2px 6px rgba($secondary, .5);
 
-$box-shadow: 4px 4px 12px rgba($primary, .5);
-$box-shadow-sm: 2px 2px 6px rgba($secondary, .5);
-
 $input-bg: $light;
 $input-placeholder-color: $secondary;
 $input-border-color: $light;
-
 
 $font-family-sans-serif: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 $font-family-base: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
 $input-box-shadow: $box-shadow-sm;
+$input-focus-box-shadow: 0 0 0 4px $secondary;
 $btn-box-shadow: 0 0 0 0 $secondary;
 $btn-active-box-shadow: 0 0 0 0 $secondary;
 $btn-focus-box-shadow: 0 0 0 4px $secondary;
+$form-select-box-shadow: $box-shadow-sm;
+$form-select-focus-box-shadow: 0 0 0 4px $secondary;
 
 $table-bg: $light;
 $table-accent-bg: $light;

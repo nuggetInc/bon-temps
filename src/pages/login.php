@@ -6,7 +6,7 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
     $user = User::login($_POST["username"], $_POST["password"]);
 
     if (!isset($user)) {
-        header("Location: .");
+        header("Location: " . PATH);
         exit;
     }
 

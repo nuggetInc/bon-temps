@@ -57,4 +57,20 @@ class Reservation
 
         return $reservations;
     }
+
+    public static function update(int $id, int $datetime, int $count, int $customerID): ?Reservation
+    {
+        $params = array(
+            ":id" => $id,
+            ":date" => date("Y-m-d", $datetime),
+            ":time" => date("H:i:s", $datetime),
+            ":count" => $count,
+            ":customer_id" => $customerID,
+        );
+
+        $sth = getPDO()->prepare("UPDATE `reservations` SET `date` = :date, `time` = :time, `count` = :count, `customer_id` = :customer_id WHERE `id` = :id;");
+        $sth->execute($params);
+
+        return new Reservation($id, $datetime, $count, $customerID);
+    }
 }

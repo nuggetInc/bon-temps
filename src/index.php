@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 require_once "classes/Customer.php";
+require_once "classes/Dish.php";
+require_once "classes/ReservationDish.php";
 require_once "classes/Reservation.php";
 require_once "classes/User.php";
 
@@ -10,6 +12,7 @@ session_start();
 
 define("ROOT", $_SERVER["REDIRECT_ROOT"]);
 define("ROUTE", $_SERVER["REDIRECT_ROUTE"]);
+define("PATH", ROOT . ROUTE);
 
 function getPDO(): PDO
 {
