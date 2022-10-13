@@ -12,7 +12,7 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
 
     $_SESSION["loginID"] = $user->getID();
 
-    header("Location: " . ROOT);
+    header("Location: " . ROOT . "/reservations");
     exit;
 }
 
@@ -30,11 +30,19 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
             <nav class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>/login">Inloggen</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="<?= ROOT ?>/register">Registreren</a>
                     </li>
+                    <?php if (isset($_SESSION["loginID"])) : ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= ROOT ?>/reservations">Reserveringen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= ROOT ?>/account">Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= ROOT ?>/logout">Uitloggen</a>
+                        </li>
+                    <?php endif ?>
                 </ul>
             </nav>
         </div>

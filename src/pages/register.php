@@ -24,7 +24,7 @@ if (isset($_POST["register"])) {
 
     $_SESSION["loginID"] = $user->getID();
 
-    header("Location: " . ROOT);
+    header("Location: " . ROOT . "/reservations");
     exit;
 }
 
@@ -44,9 +44,17 @@ if (isset($_POST["register"])) {
                     <li class="nav-item">
                         <a class="nav-link" href="<?= ROOT ?>/login">Inloggen</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>/register">Registreren</a>
-                    </li>
+                    <?php if (isset($_SESSION["loginID"])) : ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= ROOT ?>/reservations">Reserveringen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= ROOT ?>/account">Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= ROOT ?>/logout">Uitloggen</a>
+                        </li>
+                    <?php endif ?>
                 </ul>
             </nav>
         </div>
