@@ -2,25 +2,13 @@
 
 declare(strict_types=1);
 
-if (isset($_POST["register"])) {
-    if ($_POST["password"] !== $_POST["rePassword"]) {
-        $_SESSION["username"] = $_POST["username"];
-        $_SESSION["email"] = $_POST["email"];
-        $_SESSION["phonenumber"] = $_POST["phonenumber"];
-        $_SESSION["postalCode"] = $_POST["postalCode"];
-        $_SESSION["houseNumber"] = $_POST["houseNumber"];
-
-        $_SESSION["password-error"] = "Wachtwoorden komen niet overheen";
-
-        header("Location: " . PATH);
-        exit;
+if (isset($_POST["edit"])) {
+    if ($_POST["username"] !== $user->getUsername()) {
+        $user = User::updateUsername(
+            $user->getID(),
+            $_POST["username"]
+        );
     }
-
-    $user = User::create(
-        $_POST["username"],
-        $_POST["password"],
-        UserType::Customer
-    );
 
     if (!isset($user)) {
         $_SESSION["username"] = $_POST["username"];
@@ -35,7 +23,8 @@ if (isset($_POST["register"])) {
         exit;
     }
 
-    $customer = Customer::create(
+    $customer = Customer::update(
+        $customer->getID(),
         $_POST["email"],
         $_POST["phonenumber"],
         $_POST["postalCode"],
@@ -49,11 +38,28 @@ if (isset($_POST["register"])) {
     exit;
 }
 
-$_SESSION["username"] = $_SESSION["username"] ?? "";
-$_SESSION["email"] = $_SESSION["email"] ?? "";
-$_SESSION["phonenumber"] = $_SESSION["phonenumber"] ?? "";
-$_SESSION["postalCode"] = $_SESSION["postalCode"] ?? "";
-$_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? "";
+if (isset($_POST["passwordEdit"])) {
+    if ($_POST["password"] !== $_POST["rePassword"]) {
+        $_SESSION["password-error"] = "Wachtwoorden komen niet overheen";
+
+        header("Location: " . PATH);
+        exit;
+    }
+
+    $user = User::updatePassword(
+        $user->getID(),
+        $_POST["password"]
+    );
+
+    header("Location: " . ROOT . "/reservations");
+    exit;
+}
+
+$_SESSION["username"] = $_SESSION["username"] ?? $user->getUsername();
+$_SESSION["email"] = $_SESSION["email"] ?? $customer->getEmail();
+$_SESSION["phonenumber"] = $_SESSION["phonenumber"] ?? $customer->getPhonenumber();
+$_SESSION["postalCode"] = $_SESSION["postalCode"] ?? $customer->getPostalCode();
+$_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? $customer->getHouseNumber();
 
 ?>
 <div class="vh-100 d-flex flex-column">
@@ -61,7 +67,7 @@ $_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? "";
         <div class="container navbar navbar-expand-md navbar-light px-3">
             <a class="navbar-brand fw-bold" href="<?= ROOT ?>">Bon Temps</a>
             <span class="navbar-text">
-                Registreren
+                Account
             </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -69,19 +75,11 @@ $_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? "";
             <nav class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= ROOT ?>/login">Inloggen</a>
+                        <a class="nav-link" href="<?= ROOT ?>/reservations">Reserveringen</a>
                     </li>
-                    <?php if (isset($_SESSION["loginID"])) : ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= ROOT ?>/reservations">Reserveringen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= ROOT ?>/account">Account</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= ROOT ?>/logout">Uitloggen</a>
-                        </li>
-                    <?php endif ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= ROOT ?>/logout">Uitloggen</a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -89,7 +87,7 @@ $_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? "";
     <main class="container mb-auto">
         <div class="row justify-content-around gy-5">
             <form class="col-lg-4 text-dark fw-bold" method="POST">
-                <h1 class="mb-3">Registreren</h1>
+                <h1 class="mb-3">Account aanpassen</h1>
 
                 <div class="mb-3">
                     <label name="username" class="form-label" for="inputUsername">Gebruikersnaam</label>
@@ -121,6 +119,12 @@ $_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? "";
                     <input type="text" name="houseNumber" class="form-control" id="inputHouseNumber" placeholder="Huisnummer" value="<?= htmlspecialchars($_SESSION["houseNumber"]) ?>" required>
                 </div>
 
+                <button type="submit" name="edit" class="btn btn-primary">aanpassen</button>
+            </form>
+
+            <form class="col-lg-4 text-dark fw-bold" method="POST">
+                <h1 class="mb-3">Wachtwoord aanpassen</h1>
+
                 <div class="mb-3">
                     <label name="password" class="form-label" for="inputPassword">Wachtwoord</label>
                     <?php if (isset($_SESSION["password-error"])) : ?>
@@ -133,14 +137,10 @@ $_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? "";
 
                 <div class="mb-3">
                     <label name="rePassword" class="form-label" for="inputRePassword">Herhaal wachtwoord</label>
-                    <?php if (isset($_SESSION["password-error"])) : ?>
-                        <input type="password" name="password" class="form-control is-invalid" id="inputPassword" placeholder="Wachtwoord" required>
-                    <?php else : ?>
-                        <input type="password" name="rePassword" class="form-control" id="inputRePassword" placeholder="Herhaal wachtwoord" required>
-                    <?php endif ?>
+                    <input type="password" name="rePassword" class="form-control" id="inputRePassword" placeholder="Herhaal wachtwoord" required>
                 </div>
 
-                <button type="submit" name="register" class="btn btn-primary">Registreer</button>
+                <button type="submit" name="passwordEdit" class="btn btn-primary">aanpassen</button>
             </form>
         </div>
     </main>

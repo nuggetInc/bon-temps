@@ -82,4 +82,21 @@ class Customer
 
         return new Customer((int)getPDO()->lastInsertId(), $email, $phonenumber, $postalCode, $houseNumber, $userID);
     }
+
+    public static function update(int $id, string $email, string $phonenumber, string $postalCode, string $houseNumber, int $userID): Customer
+    {
+        $params = array(
+            ":id" => $id,
+            ":email" => $email,
+            ":phonenumber" => $phonenumber,
+            ":postal_code" => $postalCode,
+            ":house_number" => $houseNumber,
+            ":user_id" => $userID
+        );
+
+        $sth = getPDO()->prepare("UPDATE `customers` SET `email` = :email, `phonenumber` = :phonenumber, `postal_code` = :postal_code, `house_number` = :house_number, `user_id` = :user_id WHERE `id` = :id;");
+        $sth->execute($params);
+
+        return new Customer($id, $email, $phonenumber, $postalCode, $houseNumber, $userID);
+    }
 }
