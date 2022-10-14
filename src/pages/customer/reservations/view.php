@@ -44,7 +44,7 @@ $dishes = Dish::all();
             </nav>
         </div>
     </header>
-    <main class="container mb-auto">
+    <main class="container py-5 mb-auto">
         <h1 class="text-center mb-3">Aanpassen</h1>
         <div class="row g-5">
             <div class="col-lg-4 col-sm-8 text-dark fw-bold">

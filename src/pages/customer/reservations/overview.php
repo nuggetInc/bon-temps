@@ -27,7 +27,7 @@ $reservations = Reservation::getByCustomerID($customer->getID());
             </nav>
         </div>
     </header>
-    <main class="container mb-auto">
+    <main class="container py-5 mb-auto">
         <?php if (empty($reservations)) : ?>
             <h1 class="text-center">Het lijkt erop dat je nog geen reserveringen hebt</h1>
             <h1 class="text-center"><a href="<?= ROOT . "/reservations/create" ?>" class="btn btn-lg btn-primary">Maak er een aan</a></h1>

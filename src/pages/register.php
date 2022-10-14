@@ -76,7 +76,7 @@ $_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? "";
             </nav>
         </div>
     </header>
-    <main class="container mb-auto">
+    <main class="container py-5 mb-auto">
         <div class="row justify-content-around gy-5">
             <form class="col-lg-4 text-dark fw-bold" method="POST">
                 <h1 class="mb-3">Registreren</h1>

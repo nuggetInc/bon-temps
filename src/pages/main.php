@@ -54,8 +54,8 @@ $_SESSION["username"] = $_SESSION["username"] ?? "";
             </ul>
         </nav>
     </header>
-    <main class="container pb-5 mb-auto">
-        <div class="row h-100 justify-content-around align-content-center align-items-center gy-5">
+    <main class="container py-5 mb-auto">
+        <div class="row h-100 justify-content-around align-content-center align-items-center gy-5 mb-5">
             <form class="col-lg-4 text-light fw-bold" method="POST">
                 <h1 class="mb-3">Inloggen</h1>
 
