@@ -45,7 +45,7 @@ $dishes = Dish::all();
         </div>
     </header>
     <main class="container mb-auto">
-        <form class="d-flex flex-column justify-content-around align-items-center gy-5" method="POST">
+        <div class="d-flex flex-column justify-content-around align-items-center gy-5" method="POST">
             <input type="hidden" name="amount" value="<?= $_SESSION["amount"] ?>" />
             <table class="table table-striped table-hover shadow-sm w-auto mb-5">
                 <thead>
@@ -53,7 +53,6 @@ $dishes = Dish::all();
                         <th class="align-middle px-3">#</th>
                         <th class="align-middle px-3">Gerecht</th>
                         <th class="align-middle px-3">Hoeveelheid</th>
-                        <th class="text-end"><button type="submit" name="add" title="Nieuw gerecht toevoegen" class="fa-solid fa-square-plus btn btn-lg p-1" formnovalidate></button></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,7 +60,7 @@ $dishes = Dish::all();
                         <tr>
                             <td class="align-middle px-3"><?= $index + 1 ?></td>
                             <td class="px-3">
-                                <select name="dishID<?= $index ?>" class="form-select" required>
+                                <select name="dishID<?= $index ?>" class="form-select" disabled>
                                     <?php
 
                                     $dishID = $_SESSION["dishID$index"];
@@ -79,8 +78,7 @@ $dishes = Dish::all();
                                     <?php endforeach ?>
                                 </select>
                             </td>
-                            <td class="px-3"><input type="number" name="amount<?= $index ?>" class="form-control" value="<?= $_SESSION["amount$index"]  ?>" min="0" /></td>
-                            <td class="text-end"><button type="submit" name="remove" value="<?= $index ?>" title="Gerecht verwijderen" class="fa-solid fa-square-minus btn btn-lg p-1" formnovalidate></button></th>
+                            <td class="px-3"><input type="number" name="amount<?= $index ?>" class="form-control" value="<?= $_SESSION["amount$index"]  ?>" disabled /></td>
                         </tr>
                     <?php endfor ?>
                 </tbody>
@@ -90,22 +88,20 @@ $dishes = Dish::all();
 
                 <div class="mb-3">
                     <label name="date" class="form-label" for="inputDate">Datum</label>
-                    <input type="date" name="date" class="form-control" id="inputDate" value="<?= $_SESSION["date"] ?>" min="<?= date("Y-m-d", strtotime("+1 week")) ?>">
+                    <input type="date" name="date" class="form-control" id="inputDate" value="<?= $_SESSION["date"] ?>" disabled>
                 </div>
 
                 <div class="mb-3">
                     <label name="time" class="form-label" for="inputTime">Tijd</label>
-                    <input type="time" name="time" class="form-control" id="inputTime" value="<?= $_SESSION["time"] ?>">
+                    <input type="time" name="time" class="form-control" id="inputTime" value="<?= $_SESSION["time"] ?>" disabled>
                 </div>
 
                 <div class="mb-3">
                     <label name="count" class="form-label" for="inputCount">Aantal personen</label>
-                    <input type="number" name="count" class="form-control" id="inputCount" value="<?= $_SESSION["count"] ?>" placeholder="Aantal personen" min="4">
+                    <input type="number" name="count" class="form-control" id="inputCount" value="<?= $_SESSION["count"] ?>" disabled>
                 </div>
-
-                <button type="submit" name="edit" class="btn btn-primary">Aanpassen</button>
             </div>
-        </form>
+        </div>
     </main>
 </div>
 <?php
