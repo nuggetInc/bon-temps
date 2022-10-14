@@ -126,7 +126,7 @@ $dishes = Dish::all();
         <h1 class="text-center mb-3">Aanmaken</h1>
         <form class="row g-5" method="POST">
             <input type="hidden" name="amount" value="<?= $_SESSION["amount"] ?>" />
-            <div class="col-lg-4 text-dark fw-bold">
+            <div class="col-lg-4 col-sm-8 text-dark fw-bold">
                 <div class="mb-3">
                     <label name="date" class="form-label" for="inputDate">Datum</label>
                     <input type="date" name="date" class="form-control" id="inputDate" value="<?= $_SESSION["date"] ?>" min="<?= date("Y-m-d", strtotime("+1 week")) ?>">

@@ -56,7 +56,7 @@ $_SESSION["username"] = $_SESSION["username"] ?? "";
     </header>
     <main class="container py-5 mb-auto">
         <div class="row h-100 justify-content-around align-content-center align-items-center gy-5 mb-5">
-            <form class="col-lg-4 text-light fw-bold" method="POST">
+            <form class="col-lg-4 col-sm-8 text-light fw-bold" method="POST">
                 <h1 class="mb-3">Inloggen</h1>
 
                 <div class="mb-4 position-relative">
@@ -80,7 +80,7 @@ $_SESSION["username"] = $_SESSION["username"] ?? "";
 
                 <button type="submit" name="login" class="btn btn-light">Log in</button>
             </form>
-            <div class="col-lg-4 text-light">
+            <div class="col-lg-4 col-sm-8 text-light">
                 <h1 class="mb-3">Bon Temps</h1>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam similique tempore tempora at, nesciunt eaque?</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, dolorem officia expedita modi dolores rerum.</p>
