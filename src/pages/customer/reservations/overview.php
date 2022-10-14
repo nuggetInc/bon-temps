@@ -28,38 +28,43 @@ $reservations = Reservation::getByCustomerID($customer->getID());
         </div>
     </header>
     <main class="container mb-auto">
-        <table class="table table-striped table-hover shadow-sm">
-            <thead>
-                <tr>
-                    <th class="align-middle px-3">#</th>
-                    <th class="align-middle px-3">Datum</th>
-                    <th class="align-middle px-3">Tijd</th>
-                    <th class="align-middle px-3">Aantal</th>
-                    <th class="text-end"><a title="Nieuwe reservering aanmaken" href="<?= ROOT . "/reservations/create" ?>" class=" fa-solid fa-square-plus btn btn-lg p-1"></a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-
-                $index = 0;
-
-                ?>
-                <?php foreach ($reservations as $reservation) : ?>
+        <?php if (empty($reservations)) : ?>
+            <h1 class="text-center">Het lijkt erop dat je nog geen reserveringen hebt</h1>
+            <h1 class="text-center"><a href="<?= ROOT . "/reservations/create" ?>" class="btn btn-lg btn-primary">Maak er een aan</a></h1>
+        <?php else : ?>
+            <table class="table table-striped table-hover shadow-sm">
+                <thead>
                     <tr>
-                        <td class="align-middle px-3"><?= ++$index ?></td>
-                        <td class="align-middle px-3"><?= date("d-m-Y", $reservation->getDatetime()) ?></td>
-                        <td class="align-middle px-3"><?= date("H:i", $reservation->getDatetime()) ?></td>
-                        <td class="align-middle px-3"><?= $reservation->getCount() ?></td>
-                        <td class="text-end">
-                            <a title="Reservering bekijken" href="<?= ROOT . "/reservations/view/" . $reservation->getID() ?>" class="fa-solid fa-square-arrow-up-right btn btn-lg p-1"></a>
-                            <?php if ($reservation->getDatetime() > strtotime('+1 week')) : ?>
-                                <a title="Reservering bewerken" href="<?= ROOT . "/reservations/edit/" . $reservation->getID() ?>" class="fa-solid fa-square-pen btn btn-lg p-1"></a>
-                                <a title="Reservering verwijderen" href="<?= ROOT . "/reservations/delete/" . $reservation->getID() ?>" class="fa-solid fa-square-minus btn btn-lg p-1"></a>
-                            <?php endif ?>
-                        </td>
+                        <th class="align-middle px-3">#</th>
+                        <th class="align-middle px-3">Datum</th>
+                        <th class="align-middle px-3">Tijd</th>
+                        <th class="align-middle px-3">Aantal</th>
+                        <th class="text-end"><a title="Nieuwe reservering aanmaken" href="<?= ROOT . "/reservations/create" ?>" class="fa-solid fa-square-plus btn btn-lg p-1"></a></th>
                     </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php
+
+                    $index = 0;
+
+                    ?>
+                    <?php foreach ($reservations as $reservation) : ?>
+                        <tr>
+                            <td class="align-middle px-3"><?= ++$index ?></td>
+                            <td class="align-middle px-3"><?= date("d-m-Y", $reservation->getDatetime()) ?></td>
+                            <td class="align-middle px-3"><?= date("H:i", $reservation->getDatetime()) ?></td>
+                            <td class="align-middle px-3"><?= $reservation->getCount() ?></td>
+                            <td class="text-end">
+                                <a title="Reservering bekijken" href="<?= ROOT . "/reservations/view/" . $reservation->getID() ?>" class="fa-solid fa-square-arrow-up-right btn btn-lg p-1"></a>
+                                <?php if ($reservation->getDatetime() > strtotime('+1 week')) : ?>
+                                    <a title="Reservering bewerken" href="<?= ROOT . "/reservations/edit/" . $reservation->getID() ?>" class="fa-solid fa-square-pen btn btn-lg p-1"></a>
+                                    <a title="Reservering verwijderen" href="<?= ROOT . "/reservations/delete/" . $reservation->getID() ?>" class="fa-solid fa-square-minus btn btn-lg p-1"></a>
+                                <?php endif ?>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        <?php endif ?>
     </main>
 </div>
