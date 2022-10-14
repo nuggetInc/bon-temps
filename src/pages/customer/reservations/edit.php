@@ -135,6 +135,7 @@ $dishes = Dish::all();
     <main class="container mb-auto">
         <form class="d-flex flex-column justify-content-around align-items-center gy-5" method="POST">
             <input type="hidden" name="amount" value="<?= $_SESSION["amount"] ?>" />
+            <h1 class="mb-3">Aanpassen</h1>
             <table class="table table-striped table-hover shadow-sm w-auto mb-5">
                 <thead>
                     <tr>
@@ -174,8 +175,6 @@ $dishes = Dish::all();
                 </tbody>
             </table>
             <div class="col-lg-4 text-dark fw-bold">
-                <h1 class="mb-3">Aanpassen</h1>
-
                 <div class="mb-3">
                     <label name="date" class="form-label" for="inputDate">Datum</label>
                     <input type="date" name="date" class="form-control" id="inputDate" value="<?= $_SESSION["date"] ?>" min="<?= date("Y-m-d", strtotime("+1 week")) ?>">

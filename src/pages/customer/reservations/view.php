@@ -27,7 +27,7 @@ $dishes = Dish::all();
         <div class="container navbar navbar-expand-md navbar-light px-3">
             <a class="navbar-brand fw-bold" href="<?= ROOT ?>">Bon Temps</a>
             <span class="navbar-text">
-                Reservering aanpassen
+                Reservering bekijken
             </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -84,8 +84,6 @@ $dishes = Dish::all();
                 </tbody>
             </table>
             <div class="col-lg-4 text-dark fw-bold">
-                <h1 class="mb-3">Aanpassen</h1>
-
                 <div class="mb-3">
                     <label name="date" class="form-label" for="inputDate">Datum</label>
                     <input type="date" name="date" class="form-control" id="inputDate" value="<?= $_SESSION["date"] ?>" disabled>
