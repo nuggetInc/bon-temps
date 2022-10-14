@@ -48,14 +48,8 @@ function getPDO(): PDO
         $user = User::get($_SESSION["loginID"]);
 
         switch ($route[0] ?? null) {
-            case "login":
-                require("pages/login.php");
-                break;
             case "logout":
                 require("pages/logout.php");
-                break;
-            case "register":
-                require("pages/register.php");
                 break;
             case "main":
                 require("pages/main.php");
@@ -72,9 +66,6 @@ function getPDO(): PDO
         switch ($route[0] ?? null) {
             case "login":
                 require("pages/login.php");
-                break;
-            case "logout":
-                require("pages/logout.php");
                 break;
             case "register":
                 require("pages/register.php");

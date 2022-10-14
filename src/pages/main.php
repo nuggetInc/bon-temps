@@ -25,13 +25,15 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
         </button>
         <nav class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
-                <?php if (isset($_SESSION["loginID"])) : ?>
+                <?php if (isset($user) && $user->getType() === UserType::Customer) : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= ROOT ?>/reservations">Reserveringen</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= ROOT ?>/account">Account</a>
                     </li>
+                <?php endif ?>
+                <?php if (isset($user)) : ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= ROOT ?>/logout">Uitloggen</a>
                     </li>

@@ -32,17 +32,6 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
                     <li class="nav-item">
                         <a class="nav-link" href="<?= ROOT ?>/register">Registreren</a>
                     </li>
-                    <?php if (isset($_SESSION["loginID"])) : ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= ROOT ?>/reservations">Reserveringen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= ROOT ?>/account">Account</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= ROOT ?>/logout">Uitloggen</a>
-                        </li>
-                    <?php endif ?>
                 </ul>
             </nav>
         </div>
