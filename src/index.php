@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once "classes/Customer.php";
 require_once "classes/Dish.php";
+require_once "classes/Ingredient.php";
 require_once "classes/ReservationDish.php";
 require_once "classes/Reservation.php";
 require_once "classes/User.php";

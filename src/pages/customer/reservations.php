@@ -29,8 +29,6 @@ switch ($route[1] ?? null) {
 
         break;
     case "overview":
-        require("reservations/overview.php");
-        break;
     default:
         require("reservations/overview.php");
         break;
