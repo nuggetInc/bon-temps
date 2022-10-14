@@ -45,45 +45,9 @@ $dishes = Dish::all();
         </div>
     </header>
     <main class="container mb-auto">
-        <div class="d-flex flex-column justify-content-around align-items-center gy-5" method="POST">
-            <input type="hidden" name="amount" value="<?= $_SESSION["amount"] ?>" />
-            <table class="table table-striped table-hover shadow-sm w-auto mb-5">
-                <thead>
-                    <tr>
-                        <th class="align-middle px-3">#</th>
-                        <th class="align-middle px-3">Gerecht</th>
-                        <th class="align-middle px-3">Hoeveelheid</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php for ($index = 0; $index < $_SESSION["amount"]; $index++) : ?>
-                        <tr>
-                            <td class="align-middle px-3"><?= $index + 1 ?></td>
-                            <td class="px-3">
-                                <select name="dishID<?= $index ?>" class="form-select" disabled>
-                                    <?php
-
-                                    $dishID = $_SESSION["dishID$index"];
-
-                                    ?>
-                                    <?php if ($dishID === 0) : ?>
-                                        <option value="" disabled selected>Kies een gerecht</option>
-                                    <?php else : ?>
-                                        <option value="<?= $dishID ?>" selected><?= $dishes[$_SESSION["dishID$index"]]->getName() ?></option>
-                                    <?php endif ?>
-                                    <?php foreach ($dishes as $dish) : ?>
-                                        <?php if ($dish->getID() != $dishID) : ?>
-                                            <option value="<?= $dish->getID() ?>"><?= $dish->getName() ?></option>
-                                        <?php endif ?>
-                                    <?php endforeach ?>
-                                </select>
-                            </td>
-                            <td class="px-3"><input type="number" name="amount<?= $index ?>" class="form-control" value="<?= $_SESSION["amount$index"]  ?>" disabled /></td>
-                        </tr>
-                    <?php endfor ?>
-                </tbody>
-            </table>
-            <div class="col-lg-4 text-dark fw-bold">
+        <h1 class="text-center mb-3">Aanpassen</h1>
+        <div class="row g-5">
+            <div class="col-lg-4 col-sm-8 text-dark fw-bold">
                 <div class="mb-3">
                     <label name="date" class="form-label" for="inputDate">Datum</label>
                     <input type="date" name="date" class="form-control" id="inputDate" value="<?= $_SESSION["date"] ?>" disabled>
@@ -98,6 +62,44 @@ $dishes = Dish::all();
                     <label name="count" class="form-label" for="inputCount">Aantal personen</label>
                     <input type="number" name="count" class="form-control" id="inputCount" value="<?= $_SESSION["count"] ?>" disabled>
                 </div>
+            </div>
+            <div class="col-lg-8">
+                <table class="table table-striped table-hover shadow-sm mt-3">
+                    <thead>
+                        <tr>
+                            <th class="align-middle px-3">#</th>
+                            <th class="align-middle px-3">Gerecht</th>
+                            <th class="align-middle px-3">Hoeveelheid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for ($index = 0; $index < $_SESSION["amount"]; $index++) : ?>
+                            <tr>
+                                <td class="align-middle px-3"><?= $index + 1 ?></td>
+                                <td class="px-3">
+                                    <select name="dishID<?= $index ?>" class="form-select" disabled>
+                                        <?php
+
+                                        $dishID = $_SESSION["dishID$index"];
+
+                                        ?>
+                                        <?php if ($dishID === 0) : ?>
+                                            <option value="" disabled selected>Kies een gerecht</option>
+                                        <?php else : ?>
+                                            <option value="<?= $dishID ?>" selected><?= $dishes[$_SESSION["dishID$index"]]->getName() ?></option>
+                                        <?php endif ?>
+                                        <?php foreach ($dishes as $dish) : ?>
+                                            <?php if ($dish->getID() != $dishID) : ?>
+                                                <option value="<?= $dish->getID() ?>"><?= $dish->getName() ?></option>
+                                            <?php endif ?>
+                                        <?php endforeach ?>
+                                    </select>
+                                </td>
+                                <td class="px-3"><input type="number" name="amount<?= $index ?>" class="form-control" value="<?= $_SESSION["amount$index"]  ?>" disabled /></td>
+                            </tr>
+                        <?php endfor ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>

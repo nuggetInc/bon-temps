@@ -123,47 +123,9 @@ $dishes = Dish::all();
         </div>
     </header>
     <main class="container mb-auto">
-        <form class="d-flex flex-column justify-content-around align-items-center gy-5" method="POST">
+        <h1 class="text-center mb-3">Aanmaken</h1>
+        <form class="row g-5" method="POST">
             <input type="hidden" name="amount" value="<?= $_SESSION["amount"] ?>" />
-            <h1 class="mb-3">Aanmaken</h1>
-            <table class="table table-striped table-hover shadow-sm w-auto mb-5">
-                <thead>
-                    <tr>
-                        <th class="align-middle px-3">#</th>
-                        <th class="align-middle px-3">Gerecht</th>
-                        <th class="align-middle px-3">Hoeveelheid</th>
-                        <th class="text-end"><button type="submit" name="add" title="Nieuw gerecht toevoegen" class="fa-solid fa-square-plus btn btn-lg p-1" formnovalidate></button></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php for ($index = 0; $index < $_SESSION["amount"]; $index++) : ?>
-                        <tr>
-                            <td class="align-middle px-3"><?= $index + 1 ?></td>
-                            <td class="px-3">
-                                <select name="dishID<?= $index ?>" class="form-select" required>
-                                    <?php
-
-                                    $dishID = $_SESSION["dishID$index"];
-
-                                    ?>
-                                    <?php if ($dishID === 0) : ?>
-                                        <option value="" disabled selected>Kies een gerecht</option>
-                                    <?php else : ?>
-                                        <option value="<?= $dishID ?>" selected><?= $dishes[$_SESSION["dishID$index"]]->getName() ?></option>
-                                    <?php endif ?>
-                                    <?php foreach ($dishes as $dish) : ?>
-                                        <?php if ($dish->getID() != $dishID) : ?>
-                                            <option value="<?= $dish->getID() ?>"><?= $dish->getName() ?></option>
-                                        <?php endif ?>
-                                    <?php endforeach ?>
-                                </select>
-                            </td>
-                            <td class="px-3"><input type="number" name="amount<?= $index ?>" class="form-control" value="<?= $_SESSION["amount$index"]  ?>" min="0" /></td>
-                            <td class="text-end"><button type="submit" name="remove" value="<?= $index ?>" title="Gerecht verwijderen" class="fa-solid fa-square-minus btn btn-lg p-1" formnovalidate></button></th>
-                        </tr>
-                    <?php endfor ?>
-                </tbody>
-            </table>
             <div class="col-lg-4 text-dark fw-bold">
                 <div class="mb-3">
                     <label name="date" class="form-label" for="inputDate">Datum</label>
@@ -181,6 +143,46 @@ $dishes = Dish::all();
                 </div>
 
                 <button type="submit" name="create" class="btn btn-primary">Aanmaken</button>
+            </div>
+            <div class="col-lg-8">
+                <table class="table table-striped table-hover shadow-sm mt-3">
+                    <thead>
+                        <tr>
+                            <th class="align-middle px-3">#</th>
+                            <th class="align-middle px-3">Gerecht</th>
+                            <th class="align-middle px-3">Hoeveelheid</th>
+                            <th class="text-end"><button type="submit" name="add" title="Nieuw gerecht toevoegen" class="fa-solid fa-square-plus btn btn-lg p-1" formnovalidate></button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for ($index = 0; $index < $_SESSION["amount"]; $index++) : ?>
+                            <tr>
+                                <td class="align-middle px-3"><?= $index + 1 ?></td>
+                                <td class="px-3">
+                                    <select name="dishID<?= $index ?>" class="form-select" required>
+                                        <?php
+
+                                        $dishID = $_SESSION["dishID$index"];
+
+                                        ?>
+                                        <?php if ($dishID === 0) : ?>
+                                            <option value="" disabled selected>Kies een gerecht</option>
+                                        <?php else : ?>
+                                            <option value="<?= $dishID ?>" selected><?= $dishes[$_SESSION["dishID$index"]]->getName() ?></option>
+                                        <?php endif ?>
+                                        <?php foreach ($dishes as $dish) : ?>
+                                            <?php if ($dish->getID() != $dishID) : ?>
+                                                <option value="<?= $dish->getID() ?>"><?= $dish->getName() ?></option>
+                                            <?php endif ?>
+                                        <?php endforeach ?>
+                                    </select>
+                                </td>
+                                <td class="px-3"><input type="number" name="amount<?= $index ?>" class="form-control" value="<?= $_SESSION["amount$index"]  ?>" min="0" /></td>
+                                <td class="text-end"><button type="submit" name="remove" value="<?= $index ?>" title="Gerecht verwijderen" class="fa-solid fa-square-minus btn btn-lg p-1" formnovalidate></button></th>
+                            </tr>
+                        <?php endfor ?>
+                    </tbody>
+                </table>
             </div>
         </form>
     </main>
