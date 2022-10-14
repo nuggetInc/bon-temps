@@ -2,110 +2,32 @@
 
 declare(strict_types=1);
 
-if (isset($_POST["edit"], $_POST["amount"], $_POST["date"], $_POST["time"], $_POST["count"])) {
+if (isset($_POST["delete"])) {
 
     ReservationDish::deleteByReservationID($reservation->getID());
 
-    $reservationDishes = array();
-
-    for ($index = 0; $index < (int)$_POST["amount"]; $index++) {
-        $dishID = (int)$_POST["dishID$index"];
-        $amount = (int)$_POST["amount$index"];
-
-        if (array_key_exists($dishID, $reservationDishes)) {
-            $reservationDishes[$dishID] += $amount;
-        } else {
-            $reservationDishes[$dishID] = $amount;
-        }
-    }
-
-    foreach ($reservationDishes as $dishID => $amount) {
-        if ($dishID !== 0 && $amount !== 0)
-            ReservationDish::create($reservation->getID(), $dishID, $amount);
-    }
-
-    Reservation::update(
-        $reservation->getID(),
-        strtotime($_POST["date"] . " " . $_POST["time"]),
-        (int)$_POST["count"],
-        $reservation->getCustomerID(),
-    );
+    Reservation::delete($reservation->getID());
 
     header("Location: " . ROOT . "/reservations");
     exit;
 }
 
-if (isset($_POST["add"], $_POST["amount"], $_POST["date"], $_POST["date"], $_POST["date"])) {
+$reservationDishes = ReservationDish::getByReservationID($reservation->getID());
 
-    $_SESSION["amount"] = (int)$_POST["amount"];
+$_SESSION["amount"] = count($reservationDishes);
 
-    for ($index = 0; $index < $_SESSION["amount"]; $index++) {
-        $_SESSION["dishID$index"] = (int)$_POST["dishID$index"];
-        $_SESSION["amount$index"] = (int)$_POST["amount$index"];
-    }
+$index = 0;
+foreach ($reservationDishes as $reservationDish) {
+    $dish = $reservationDish->getDish();
+    $_SESSION["dishID$index"] = $dish->getID();
+    $_SESSION["amount$index"] = $reservationDish->getAmount();
 
-    $_SESSION["amount"]++;
-    $_SESSION["dishID$index"] = 0;
-    $_SESSION["amount$index"] = 1;
-
-    $_SESSION["date"] = $_POST["date"];
-    $_SESSION["time"] = $_POST["time"];
-    $_SESSION["count"] = (int)$_POST["count"];
-
-    header("Location: " . PATH);
-    exit;
+    $index++;
 }
 
-if (isset($_POST["remove"], $_POST["amount"], $_POST["date"], $_POST["date"], $_POST["date"])) {
-
-    $_SESSION["amount"] = (int)$_POST["amount"];
-    if ($_SESSION["amount"] > 1) {
-
-        for ($index = 0; $index < $_SESSION["amount"]; $index++) {
-            if ($index < (int)$_POST["remove"]) {
-                $_SESSION["dishID$index"] = (int)$_POST["dishID$index"];
-                $_SESSION["amount$index"] = (int)$_POST["amount$index"];
-                echo "test1";
-            } elseif ($index > (int)$_POST["remove"]) {
-                $_SESSION["dishID" . $index - 1] = (int)$_POST["dishID$index"];
-                $_SESSION["amount" . $index - 1] = (int)$_POST["amount$index"];
-            }
-        }
-
-        $_SESSION["amount"]--;
-        unset($_SESSION["dishID" . $index - 1]);
-        unset($_SESSION["amount" . $index - 1]);
-    } else {
-        $_SESSION["dishID0"] = 0;
-        $_SESSION["amount0"] = 1;
-    }
-
-    $_SESSION["date"] = $_POST["date"];
-    $_SESSION["time"] = $_POST["time"];
-    $_SESSION["count"] = (int)$_POST["count"];
-
-    header("Location: " . PATH);
-    exit;
-}
-
-if (!isset($_SESSION["amount"], $_SESSION["date"], $_SESSION["time"], $_SESSION["count"])) {
-    $reservationDishes = ReservationDish::getByReservationID($reservation->getID());
-
-    $_SESSION["amount"] = count($reservationDishes);
-
-    $index = 0;
-    foreach ($reservationDishes as $reservationDish) {
-        $dish = $reservationDish->getDish();
-        $_SESSION["dishID$index"] = $dish->getID();
-        $_SESSION["amount$index"] = $reservationDish->getAmount();
-
-        $index++;
-    }
-
-    $_SESSION["date"] = date("Y-m-d", $reservation->getDatetime());
-    $_SESSION["time"] = date("H:i", $reservation->getDatetime());
-    $_SESSION["count"] = $reservation->getCount();
-}
+$_SESSION["date"] = date("Y-m-d", $reservation->getDatetime());
+$_SESSION["time"] = date("H:i", $reservation->getDatetime());
+$_SESSION["count"] = $reservation->getCount();
 
 $dishes = Dish::all();
 
@@ -141,7 +63,6 @@ $dishes = Dish::all();
                         <th class="align-middle px-3">#</th>
                         <th class="align-middle px-3">Gerecht</th>
                         <th class="align-middle px-3">Hoeveelheid</th>
-                        <th class="text-end"><button type="submit" name="add" title="Nieuw gerecht toevoegen" class="fa-solid fa-square-plus btn btn-lg p-1" formnovalidate></button></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -149,7 +70,7 @@ $dishes = Dish::all();
                         <tr>
                             <td class="align-middle px-3"><?= $index + 1 ?></td>
                             <td class="px-3">
-                                <select name="dishID<?= $index ?>" class="form-select" required>
+                                <select name="dishID<?= $index ?>" class="form-select" disabled>
                                     <?php
 
                                     $dishID = $_SESSION["dishID$index"];
@@ -167,8 +88,7 @@ $dishes = Dish::all();
                                     <?php endforeach ?>
                                 </select>
                             </td>
-                            <td class="px-3"><input type="number" name="amount<?= $index ?>" class="form-control" value="<?= $_SESSION["amount$index"]  ?>" min="0" /></td>
-                            <td class="text-end"><button type="submit" name="remove" value="<?= $index ?>" title="Gerecht verwijderen" class="fa-solid fa-square-minus btn btn-lg p-1" formnovalidate></button></th>
+                            <td class="px-3"><input type="number" name="amount<?= $index ?>" class="form-control" value="<?= $_SESSION["amount$index"]  ?>" disabled /></td>
                         </tr>
                     <?php endfor ?>
                 </tbody>
@@ -178,20 +98,20 @@ $dishes = Dish::all();
 
                 <div class="mb-3">
                     <label name="date" class="form-label" for="inputDate">Datum</label>
-                    <input type="date" name="date" class="form-control" id="inputDate" value="<?= $_SESSION["date"] ?>" min="<?= date("Y-m-d", strtotime("+1 week")) ?>">
+                    <input type="date" name="date" class="form-control" id="inputDate" value="<?= $_SESSION["date"] ?>" disabled>
                 </div>
 
                 <div class="mb-3">
                     <label name="time" class="form-label" for="inputTime">Tijd</label>
-                    <input type="time" name="time" class="form-control" id="inputTime" value="<?= $_SESSION["time"] ?>">
+                    <input type="time" name="time" class="form-control" id="inputTime" value="<?= $_SESSION["time"] ?>" disabled>
                 </div>
 
                 <div class="mb-3">
                     <label name="count" class="form-label" for="inputCount">Aantal personen</label>
-                    <input type="number" name="count" class="form-control" id="inputCount" value="<?= $_SESSION["count"] ?>" placeholder="Aantal personen" min="4">
+                    <input type="number" name="count" class="form-control" id="inputCount" value="<?= $_SESSION["count"] ?>" disabled>
                 </div>
 
-                <button type="submit" name="edit" class="btn btn-primary">Aanpassen</button>
+                <button type="submit" name="delete" class="btn btn-primary">Verwijderen</button>
             </div>
         </form>
     </main>

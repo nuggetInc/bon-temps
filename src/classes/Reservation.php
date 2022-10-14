@@ -88,4 +88,11 @@ class Reservation
 
         return new Reservation($id, $datetime, $count, $customerID);
     }
+
+    public static function delete(int $id): void
+    {
+        $params = array(":id" => $id);
+        $sth = getPDO()->prepare("DELETE FROM `reservations` WHERE `id` = :id;");
+        $sth->execute($params);
+    }
 }
