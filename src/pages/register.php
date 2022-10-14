@@ -3,13 +3,20 @@
 declare(strict_types=1);
 
 if (isset($_POST["register"])) {
-    if ($_POST["password"] !== $_POST["rePassword"]) {
-        $_SESSION["username"] = $_POST["username"];
-        $_SESSION["email"] = $_POST["email"];
-        $_SESSION["phonenumber"] = $_POST["phonenumber"];
-        $_SESSION["postalCode"] = $_POST["postalCode"];
-        $_SESSION["houseNumber"] = $_POST["houseNumber"];
+    $_SESSION["username"] = $_POST["username"];
+    $_SESSION["email"] = $_POST["email"];
+    $_SESSION["phonenumber"] = $_POST["phonenumber"];
+    $_SESSION["postalCode"] = $_POST["postalCode"];
+    $_SESSION["houseNumber"] = $_POST["houseNumber"];
 
+    if (strlen($_POST["password"]) < 4) {
+        $_SESSION["password-error"] = "Wachtwoord moet minstens 4 karakters lang zijn";
+
+        header("Location: " . PATH);
+        exit;
+    }
+
+    if ($_POST["password"] !== $_POST["rePassword"]) {
         $_SESSION["password-error"] = "Wachtwoorden komen niet overheen";
 
         header("Location: " . PATH);
@@ -23,12 +30,6 @@ if (isset($_POST["register"])) {
     );
 
     if (!isset($user)) {
-        $_SESSION["username"] = $_POST["username"];
-        $_SESSION["email"] = $_POST["email"];
-        $_SESSION["phonenumber"] = $_POST["phonenumber"];
-        $_SESSION["postalCode"] = $_POST["postalCode"];
-        $_SESSION["houseNumber"] = $_POST["houseNumber"];
-
         $_SESSION["username-error"] = "Gebruikersnaam is niet beschikbaar";
 
         header("Location: " . PATH);
@@ -123,7 +124,7 @@ $_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? "";
                 <div class="mb-3">
                     <label name="rePassword" class="form-label" for="inputRePassword">Herhaal wachtwoord</label>
                     <?php if (isset($_SESSION["password-error"])) : ?>
-                        <input type="password" name="password" class="form-control is-invalid" id="inputPassword" placeholder="Wachtwoord" required>
+                        <input type="password" name="rePassword" class="form-control is-invalid" id="inputPassword" placeholder="Herhaal wachtwoord" required>
                     <?php else : ?>
                         <input type="password" name="rePassword" class="form-control" id="inputRePassword" placeholder="Herhaal wachtwoord" required>
                     <?php endif ?>

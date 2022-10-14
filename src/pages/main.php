@@ -6,6 +6,10 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
     $user = User::login($_POST["username"], $_POST["password"]);
 
     if (!isset($user)) {
+        $_SESSION["username"] = $_POST["username"];
+
+        $_SESSION["error"] = "Gebruikersnaam en wachtwoord komen niet overeen";
+
         header("Location: " . PATH);
         exit;
     }
@@ -15,6 +19,8 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
     header("Location: " . ROOT . "/reservations");
     exit;
 }
+
+$_SESSION["username"] = $_SESSION["username"] ?? "";
 
 ?>
 <div class="min-vh-100 gradient d-flex flex-column">
@@ -53,14 +59,23 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
             <form class="col-lg-4 text-light fw-bold" method="POST">
                 <h1 class="mb-3">Inloggen</h1>
 
-                <div class="mb-3">
-                    <label name="username" class="form-label" for="inputEmail">Gebruikersnaam</label>
-                    <input type="text" name="username" class="form-control" id="inputEmail" placeholder="Gebruikersnaam">
+                <div class="mb-4 position-relative">
+                    <label name="username" class="form-label" for="inputUsername">Gebruikersnaam</label>
+                    <?php if (isset($_SESSION["error"])) : ?>
+                        <input type="text" name="username" class="form-control is-invalid" id="inputUsername" placeholder="Gebruikersnaam" value="<?= htmlspecialchars($_SESSION["username"]) ?>" required />
+                        <div class="invalid-tooltip"><?= $_SESSION["error"] ?></div>
+                    <?php else : ?>
+                        <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Gebruikersnaam" value="<?= htmlspecialchars($_SESSION["username"]) ?>" required />
+                    <?php endif ?>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-4">
                     <label name="password" class="form-label" for="inputPassword">Wachtwoord</label>
-                    <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Wachtwoord">
+                    <?php if (isset($_SESSION["error"])) : ?>
+                        <input type="password" name="password" class="form-control is-invalid" id="inputPassword" placeholder="Wachtwoord" required>
+                    <?php else : ?>
+                        <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Wachtwoord" required>
+                    <?php endif ?>
                 </div>
 
                 <button type="submit" name="login" class="btn btn-light">Log in</button>
@@ -78,3 +93,10 @@ if (isset($_POST["login"], $_POST["username"], $_POST["password"])) {
     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae explicabo officiis iusto, eaque dignissimos voluptatibus odio ut accusamus blanditiis aut ea itaque vero? Totam, sint exercitationem? Sed quasi animi dolorem!</p>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit totam possimus velit? Mollitia, architecto ad aliquam repudiandae facere harum consequatur distinctio suscipit officia exercitationem hic voluptas aut et cupiditate libero?</p>
 </div>
+<?php
+
+unset($_SESSION["username"]);
+
+unset($_SESSION["error"]);
+
+?>

@@ -39,6 +39,13 @@ if (isset($_POST["edit"])) {
 }
 
 if (isset($_POST["passwordEdit"])) {
+    if (strlen($_POST["password"]) < 4) {
+        $_SESSION["password-error"] = "Wachtwoord moet minstens 4 karakters lang zijn";
+
+        header("Location: " . PATH);
+        exit;
+    }
+
     if ($_POST["password"] !== $_POST["rePassword"]) {
         $_SESSION["password-error"] = "Wachtwoorden komen niet overheen";
 
@@ -137,7 +144,11 @@ $_SESSION["houseNumber"] = $_SESSION["houseNumber"] ?? $customer->getHouseNumber
 
                 <div class="mb-3">
                     <label name="rePassword" class="form-label" for="inputRePassword">Herhaal wachtwoord</label>
-                    <input type="password" name="rePassword" class="form-control" id="inputRePassword" placeholder="Herhaal wachtwoord" required>
+                    <?php if (isset($_SESSION["password-error"])) : ?>
+                        <input type="password" name="rePassword" class="form-control is-invalid" id="inputPassword" placeholder="Herhaal wachtwoord" required>
+                    <?php else : ?>
+                        <input type="password" name="rePassword" class="form-control" id="inputRePassword" placeholder="Herhaal wachtwoord" required>
+                    <?php endif ?>
                 </div>
 
                 <button type="submit" name="passwordEdit" class="btn btn-primary">aanpassen</button>
