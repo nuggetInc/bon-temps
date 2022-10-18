@@ -44,7 +44,7 @@ class User
     }
 
     public function validatePassword(string $password): bool
-    {
+    { 
         return password_verify($password, $this->password);
     }
 
