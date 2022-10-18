@@ -39,7 +39,7 @@ if (isset($_POST['gerechttoe'])) {
     </header>
     <main class="container mb-auto">
         <div class="row justify-content-around gy-5">
-            <form class="col-lg-2 text-dark fw-bold" method="post">
+            <form class="col-lg-3 text-dark fw-bold" method="post">
                 <h2 class="mb-3">Gerecht toevoegen</h2>
                 <div>
                     <label class="form-label" for="name">Gerecht</label>

@@ -23,6 +23,17 @@ declare(strict_types=1);
         </div>
     </header>
     <main>
-
+        <form>
+            <table>
+                <tr>
+                    <th>Gerecht</th>
+                    <th>Categorie</th>
+                    <th>Soort</th>
+                </tr>
+                <?php
+                    $sth = getPDO()->prepare("")
+                ?>
+            </table>
+        </form>
     </main>
 </div>
