@@ -15,7 +15,7 @@ function getPDO(): PDO
 
     return $pdo;
 }
-
+User::register("Berend", "Berend1",UserType::Employee);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,6 +53,12 @@ function getPDO(): PDO
             break;
         case "main":
             require("pages/main.php");
+            break;
+        case "menu":
+            require("pages/menu.php");
+            break;
+        case "menuadd":
+            require("pages/menuadd.php");
             break;
         default:
             if (isset($_SESSION["loginID"]))
